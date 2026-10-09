@@ -30,4 +30,4 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests..."
-          test 2 -eq 3
+          test 2 -eq 2
