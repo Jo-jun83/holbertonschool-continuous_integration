@@ -52,3 +52,20 @@ jobs:
         run: |
           python --version
           python -c "assert 2 + 2 == 4"
+
+  verify-secret:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify secret availability
+        env:
+          DEMO_TOKEN: ${{ secrets.DEMO_TOKEN }}
+        run: |
+          if [ -n "$DEMO_TOKEN" ]; then
+            echo "Secret available"
+          else
+            echo "Secret missing"
+            exit 1
+          fi
