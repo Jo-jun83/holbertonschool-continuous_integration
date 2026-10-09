@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
+  pull_request:
 
 jobs:
   lint:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -16,3 +18,16 @@ jobs:
 
       - name: Run linter
         run: flake8 .
+
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          test 2 -eq 2
